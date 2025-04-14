@@ -6,7 +6,8 @@
     "start": "node index.js",
     "test": "node tests/run-all-tests.js",
     "test:myntra": "node tests/test-myntra.js",
-    "test:bluestone": "node tests/test-bluestone.js"
+    "test:bluestone": "node tests/test-bluestone.js",
+    "test:amazon": "node tests/test-amazon.js"
   },
   "keywords": [
     "ux",
