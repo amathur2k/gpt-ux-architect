@@ -1,0 +1,32 @@
+{
+  "name": "ux-crawler",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ux",
+    "crawler",
+    "testing",
+    "automation",
+    "screenshot",
+    "playwright",
+    "llm"
+  ],
+  "author": "",
+  "license": "MIT",
+  "description": "An intelligent website crawler that automates UX testing by exploring and documenting all possible user interactions",
+  "devDependencies": {
+    "playwright": "^1.51.1"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "@playwright/test": "^1.51.1",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.5.0",
+    "openai": "^4.93.0",
+    "uuid": "^9.0.1"
+  }
+}
