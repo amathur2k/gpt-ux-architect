@@ -2,7 +2,8 @@ require('dotenv').config();
 const { startCrawler } = require('./src/crawler');
 
 // Override environment variables for this example
-process.env.TARGET_URL = 'https://www.bluestone.com/jewellery/pendants.html'; // Bluestone pendants page
+//process.env.TARGET_URL = 'https://www.bluestone.com/pendants/the-circinus-pendant~28249.html'; // Bluestone pendants page
+process.env.TARGET_URL = 'https://www.myntra.com/lipstick';
 process.env.MAX_DEPTH = '1'; // Limit depth to just one product page
 process.env.CRAWL_DELAY = '2'; // Increased delay to be more respectful to the site
 

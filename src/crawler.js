@@ -39,7 +39,7 @@ async function startCrawler() {
   // Launch browser with optimized settings for speed
   const browser = await chromium.launch({
     headless: false,
-    timeout: 30000, // Reduced timeout for faster operation
+    timeout: 300, // Reduced timeout for faster operation
     args: ['--disable-dev-shm-usage', '--no-sandbox', '--disable-notifications', '--disable-extensions'] // Optimized for speed
   });
   
@@ -379,95 +379,8 @@ async function crawlPage(page, url, currentDepth, maxDepth, parentAction) {
 async function findProductLinks(page) {
   console.log('Searching for product links...');
   
-  return page.evaluate(() => {
-    const productLinks = [];
-    
-    // Log the current URL for debugging
-    console.log(`Current page URL: ${window.location.href}`);
-    
-    // Common patterns for product links
-    const productUrlPatterns = [
-      /\/product\//i,
-      /\/products\//i,
-      /\/item\//i,
-      /\/detail\//i,
-      /\/pendants\//i,  // Specific to jewelry sites
-      /\~\d+\.html/i,  // Common product ID pattern (like ~28249.html)
-      /\/p\//i,        // Common product path
-      /\?productId=/i  // Query parameter for product
-    ];
-    
-    // Find all links on the page
-    const allLinks = document.querySelectorAll('a');
-    console.log(`Found ${allLinks.length} total links on the page`);
-    
-    // Check each link to see if it matches product patterns
-    allLinks.forEach((link, index) => {
-      const href = link.getAttribute('href');
-      if (!href) return;
-      
-      // Check if this link matches any product URL pattern
-      const isProductLink = productUrlPatterns.some(pattern => pattern.test(href));
-      
-      // Also check for specific pendant link
-      const isTargetPendant = href.includes('/pendants/the-circinus-pendant~28249.html');
-      
-      if (isProductLink || isTargetPendant) {
-        // Get a unique selector for this link
-        let selector = '';
-        if (link.id) {
-          selector = `#${link.id}`;
-        } else if (link.className) {
-          selector = `a.${link.className.split(' ').join('.')}`;
-        } else {
-          // Use attribute selector for href
-          selector = `a[href*="${href.split('/').pop()}"]`;
-        }
-        
-        // Get text content
-        const text = link.innerText || link.textContent || '';
-        
-        // Get position
-        const rect = link.getBoundingClientRect();
-        
-        // Check if element is visible
-        const isVisible = (
-          rect.width > 0 && 
-          rect.height > 0 && 
-          getComputedStyle(link).display !== 'none' && 
-          getComputedStyle(link).visibility !== 'hidden'
-        );
-        
-        if (isVisible) {
-          productLinks.push({
-            href,
-            selector,
-            text: text.trim(),
-            position: {
-              x: Math.round(rect.x),
-              y: Math.round(rect.y),
-              width: Math.round(rect.width),
-              height: Math.round(rect.height)
-            },
-            isTargetPendant
-          });
-          
-          console.log(`Found visible product link: ${href}`);
-        } else {
-          console.log(`Skipping invisible product link: ${href}`);
-        }
-      }
-    });
-    
-    // Sort by priority (target pendant first, then by vertical position)
-    productLinks.sort((a, b) => {
-      if (a.isTargetPendant && !b.isTargetPendant) return -1;
-      if (!a.isTargetPendant && b.isTargetPendant) return 1;
-      return a.position.y - b.position.y;
-    });
-    
-    return productLinks;
-  });
+  // Use a generalized approach for all e-commerce sites
+  return findProductLinksGeneral(page);
 }
 
 /**
@@ -582,6 +495,344 @@ function processCanonicalPaths() {
   }
   
   crawlResults.canonical_paths = canonicalPathsArray;
+}
+
+/**
+ * Find product links on any e-commerce site using a generalized approach
+ * @param {Page} page - Playwright page object
+ * @returns {Array} - Array of product links with their selectors and text
+ */
+async function findProductLinksGeneral(page) {
+  console.log('Searching for product links using generalized approach...');
+  
+  return page.evaluate(() => {
+    const productLinks = [];
+    const currentUrl = window.location.href;
+    
+    // Log the current URL for debugging
+    console.log(`Current page URL: ${currentUrl}`);
+    
+    // Common product card selectors across e-commerce sites
+    const productCardSelectors = [
+      // Generic product grid selectors
+      'li.product', 'div.product', '.product-item', '.product-card', '.product-box',
+      // Grid items
+      '.grid-item', '.item', 'li.item', 'div.item',
+      // Common product list selectors
+      '.product-list-item', '.product-grid-item', '.product-container',
+      // Common card selectors
+      '.card', '.product-card', '.item-card',
+      // Specific to some popular platforms but still generic enough
+      'li.product-base', '.product-base', '.product-tile',
+      // Semantic selectors
+      '[role="listitem"]', '[itemtype="http://schema.org/Product"]',
+      // Containers with product in the class name
+      'div[class*="product"]', 'li[class*="product"]', 'article[class*="product"]'
+    ];
+    
+    // Common URL patterns for product detail pages
+    const productUrlPatterns = [
+      /\/product\//i,      // /product/ path segment
+      /\/products\//i,     // /products/ path segment
+      /\/item\//i,         // /item/ path segment
+      /\/detail\//i,       // /detail/ path segment
+      /\/p\//i,            // /p/ path segment (common shorthand)
+      /\/pd\//i,           // /pd/ path segment (common shorthand)
+      /\/dp\//i,           // /dp/ path segment (Amazon)
+      /\/(B|b)[0-9A-Z]{9}/i, // Amazon product IDs
+      /\~\d+\.html/i,      // ~12345.html pattern
+      /\-p\-\d+/i,         // -p-12345 pattern
+      /\?productId=/i,     // ?productId= query parameter
+      /\?pid=/i,           // ?pid= query parameter
+      /\&pid=/i,           // &pid= query parameter
+      /\?id=/i,            // ?id= query parameter
+      /\/[A-Za-z0-9-_]+\-\d+$/i // product-name-12345 pattern
+    ];
+    
+    // Attempt multiple strategies to find product links
+    
+    // Strategy 1: Look for product cards using common selectors
+    let foundProductCards = false;
+    let productCards = [];
+    
+    for (const selector of productCardSelectors) {
+      try {
+        const cards = document.querySelectorAll(selector);
+        if (cards && cards.length > 0) {
+          console.log(`Found ${cards.length} product cards with selector: ${selector}`);
+          productCards = Array.from(cards);
+          foundProductCards = true;
+          break;
+        }
+      } catch (e) {
+        // Ignore selector errors and try the next one
+      }
+    }
+    
+    if (foundProductCards) {
+      // Process the product cards we found
+      productCards.forEach((card) => {
+        // Find the link within the card
+        const link = card.tagName.toLowerCase() === 'a' ? card : card.querySelector('a');
+        if (!link) return;
+        
+        const href = link.getAttribute('href');
+        if (!href) return;
+        
+        // Get a unique selector
+        let selector = '';
+        if (card.id) {
+          selector = `#${card.id}`;
+        } else if (card.className) {
+          selector = `${card.tagName.toLowerCase()}.${card.className.split(' ').join('.')}`.replace(/\s+/g, '');
+        } else {
+          selector = `${card.tagName.toLowerCase()}[href="${href}"]`;
+        }
+        
+        // Get text content
+        const text = card.innerText || card.textContent || '';
+        
+        // Get position
+        const rect = card.getBoundingClientRect();
+        
+        // Check if element is visible
+        const isVisible = (
+          rect.width > 0 && 
+          rect.height > 0 && 
+          getComputedStyle(card).display !== 'none' && 
+          getComputedStyle(card).visibility !== 'hidden'
+        );
+        
+        if (isVisible) {
+          productLinks.push({
+            href: href.startsWith('/') ? new URL(href, window.location.origin).href : href,
+            selector,
+            text: text.trim(),
+            position: {
+              x: Math.round(rect.x),
+              y: Math.round(rect.y),
+              width: Math.round(rect.width),
+              height: Math.round(rect.height)
+            }
+          });
+          
+          console.log(`Found visible product card: ${href}`);
+        }
+      });
+    }
+    
+    // Strategy 2: Look for links that match product URL patterns
+    if (productLinks.length === 0) {
+      console.log('No product cards found, looking for product links by URL pattern...');
+      
+      // Find all links on the page
+      const allLinks = document.querySelectorAll('a');
+      console.log(`Found ${allLinks.length} total links on the page`);
+      
+      allLinks.forEach((link) => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+        
+        // Check if this link matches any product URL pattern
+        const isProductLink = productUrlPatterns.some(pattern => pattern.test(href));
+        
+        if (isProductLink) {
+          // Get a unique selector for this link
+          let selector = '';
+          if (link.id) {
+            selector = `#${link.id}`;
+          } else if (link.className) {
+            selector = `a.${link.className.split(' ').join('.')}`.replace(/\s+/g, '');
+          } else {
+            // Use attribute selector for href
+            const hrefValue = href.includes('"') ? href.split('"')[0] : href;
+            selector = `a[href*="${hrefValue.split('/').pop()}"]`;
+          }
+          
+          // Get text content
+          const text = link.innerText || link.textContent || '';
+          
+          // Get position
+          const rect = link.getBoundingClientRect();
+          
+          // Check if element is visible
+          const isVisible = (
+            rect.width > 0 && 
+            rect.height > 0 && 
+            getComputedStyle(link).display !== 'none' && 
+            getComputedStyle(link).visibility !== 'hidden'
+          );
+          
+          if (isVisible) {
+            productLinks.push({
+              href: href.startsWith('/') ? new URL(href, window.location.origin).href : href,
+              selector,
+              text: text.trim(),
+              position: {
+                x: Math.round(rect.x),
+                y: Math.round(rect.y),
+                width: Math.round(rect.width),
+                height: Math.round(rect.height)
+              }
+            });
+            
+            console.log(`Found visible product link: ${href}`);
+          }
+        }
+      });
+    }
+    
+    // Strategy 3: Look for elements with product-related class names
+    if (productLinks.length === 0) {
+      console.log('No product links found, trying more aggressive approach...');
+      
+      // Look for any clickable elements that might be product cards
+      const productRelatedTerms = ['product', 'item', 'card', 'goods', 'merchandise', 'listing'];
+      
+      // Create a selector that looks for elements with product-related class names
+      const productClassSelector = productRelatedTerms
+        .map(term => [
+          `div[class*="${term}"]`, 
+          `a[class*="${term}"]`, 
+          `li[class*="${term}"]`,
+          `article[class*="${term}"]`
+        ])
+        .flat()
+        .join(', ');
+      
+      const possibleProductElements = document.querySelectorAll(productClassSelector);
+      
+      possibleProductElements.forEach((element) => {
+        // Get a unique selector
+        let selector = '';
+        if (element.id) {
+          selector = `#${element.id}`;
+        } else if (element.className) {
+          selector = `${element.tagName.toLowerCase()}.${element.className.split(' ').join('.')}`.replace(/\s+/g, '');
+        } else {
+          return; // Skip elements without id or class
+        }
+        
+        // Get text content
+        const text = element.innerText || element.textContent || '';
+        
+        // Get position
+        const rect = element.getBoundingClientRect();
+        
+        // Check if element is visible
+        const isVisible = (
+          rect.width > 0 && 
+          rect.height > 0 && 
+          getComputedStyle(element).display !== 'none' && 
+          getComputedStyle(element).visibility !== 'hidden'
+        );
+        
+        if (isVisible) {
+          // Find the closest link within or containing this element
+          let link = element.tagName.toLowerCase() === 'a' ? element : element.querySelector('a');
+          if (!link) {
+            // Try to find a parent link
+            let parent = element.parentElement;
+            while (parent && parent.tagName.toLowerCase() !== 'a') {
+              parent = parent.parentElement;
+              if (!parent) break;
+            }
+            link = parent;
+          }
+          
+          const href = link ? link.getAttribute('href') : null;
+          
+          if (href) {
+            productLinks.push({
+              href: href.startsWith('/') ? new URL(href, window.location.origin).href : href,
+              selector,
+              text: text.trim(),
+              position: {
+                x: Math.round(rect.x),
+                y: Math.round(rect.y),
+                width: Math.round(rect.width),
+                height: Math.round(rect.height)
+              }
+            });
+            
+            console.log(`Found possible product element: ${selector}`);
+          }
+        }
+      });
+    }
+    
+    // Strategy 4: Look for images with links that might be products
+    if (productLinks.length === 0) {
+      console.log('Still no product links found, looking for product images...');
+      
+      // Find all images that are wrapped in links
+      const imageLinks = Array.from(document.querySelectorAll('a img'))
+        .map(img => img.closest('a'))
+        .filter(link => link !== null);
+      
+      // Filter to those that might be product images (larger than tiny icons)
+      const productImageLinks = imageLinks.filter(link => {
+        const img = link.querySelector('img');
+        const rect = img.getBoundingClientRect();
+        // Product images are typically larger than 100x100 pixels
+        return rect.width > 100 && rect.height > 100;
+      });
+      
+      productImageLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+        
+        // Get a unique selector
+        let selector = '';
+        if (link.id) {
+          selector = `#${link.id}`;
+        } else if (link.className) {
+          selector = `a.${link.className.split(' ').join('.')}`.replace(/\s+/g, '');
+        } else {
+          const img = link.querySelector('img');
+          const imgSrc = img.getAttribute('src');
+          selector = `a:has(img[src*="${imgSrc.split('/').pop()}"])`;
+        }
+        
+        // Get text content or alt text from the image
+        const img = link.querySelector('img');
+        const text = link.innerText || link.textContent || img.getAttribute('alt') || '';
+        
+        // Get position
+        const rect = link.getBoundingClientRect();
+        
+        // Check if element is visible
+        const isVisible = (
+          rect.width > 0 && 
+          rect.height > 0 && 
+          getComputedStyle(link).display !== 'none' && 
+          getComputedStyle(link).visibility !== 'hidden'
+        );
+        
+        if (isVisible) {
+          productLinks.push({
+            href: href.startsWith('/') ? new URL(href, window.location.origin).href : href,
+            selector,
+            text: text.trim(),
+            position: {
+              x: Math.round(rect.x),
+              y: Math.round(rect.y),
+              width: Math.round(rect.width),
+              height: Math.round(rect.height)
+            }
+          });
+          
+          console.log(`Found product image link: ${href}`);
+        }
+      });
+    }
+    
+    // Sort by vertical position (top to bottom)
+    productLinks.sort((a, b) => a.position.y - b.position.y);
+    
+    console.log(`Found ${productLinks.length} product links in total`);
+    return productLinks;
+  });
 }
 
 module.exports = {
