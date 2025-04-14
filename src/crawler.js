@@ -836,5 +836,6 @@ async function findProductLinksGeneral(page) {
 }
 
 module.exports = {
-  startCrawler
+  startCrawler,
+  findProductLinksGeneral
 };

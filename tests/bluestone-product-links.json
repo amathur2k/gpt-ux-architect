@@ -1,0 +1,310 @@
+[
+  {
+    "href": "https://www.bluestone.com/pendants/the-circinus-pendant~28249.html?impEvent=browseclick&posEvent=1&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_28249",
+    "text": "The Circinus Pendant",
+    "position": {
+      "x": 348,
+      "y": 752,
+      "width": 118,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-avnita-pendant~26405.html?impEvent=browseclick&posEvent=2&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_26405",
+    "text": "The Avnita Pendant",
+    "position": {
+      "x": 660,
+      "y": 752,
+      "width": 111,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-twisted-heart-pendant~8245.html?impEvent=browseclick&posEvent=3&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_8245",
+    "text": "The Twisted Heart Pendant",
+    "position": {
+      "x": 348,
+      "y": 1146,
+      "width": 152,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-reverence-pendant~4484.html?impEvent=browseclick&posEvent=4&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_4484",
+    "text": "The Reverence Pendant",
+    "position": {
+      "x": 660,
+      "y": 1146,
+      "width": 131,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-lyra-pendant~28263.html?impEvent=browseclick&posEvent=5&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_28263",
+    "text": "The Lyra Pendant",
+    "position": {
+      "x": 973,
+      "y": 1146,
+      "width": 98,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-cygnus-pendant~28250.html?impEvent=browseclick&posEvent=6&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_28250",
+    "text": "The Cygnus Pendant",
+    "position": {
+      "x": 348,
+      "y": 1890,
+      "width": 116,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-glorious-sun-pendant~9521.html?impEvent=browseclick&posEvent=7&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_9521",
+    "text": "The Glorious Sun Pendant",
+    "position": {
+      "x": 660,
+      "y": 1890,
+      "width": 146,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-noura-pendant~84146.html?impEvent=browseclick&posEvent=8&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_84146",
+    "text": "The Noura Pendant",
+    "position": {
+      "x": 973,
+      "y": 1890,
+      "width": 109,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-orion-pendant~28255.html?impEvent=browseclick&posEvent=9&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_28255",
+    "text": "The Orion Pendant",
+    "position": {
+      "x": 348,
+      "y": 2285,
+      "width": 106,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-pema-pendant~62376.html?impEvent=browseclick&posEvent=10&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_62376",
+    "text": "The Pema Pendant",
+    "position": {
+      "x": 660,
+      "y": 2285,
+      "width": 106,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-yagnakaya-pendant~905.html?impEvent=browseclick&posEvent=11&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_905",
+    "text": "The Yagnakaya Pendant",
+    "position": {
+      "x": 973,
+      "y": 2285,
+      "width": 137,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-mirella-pendant~1176.html?impEvent=browseclick&posEvent=12&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_1176",
+    "text": "The Mirella Pendant",
+    "position": {
+      "x": 348,
+      "y": 2679,
+      "width": 112,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-janessa-pendant~44327.html?impEvent=browseclick&posEvent=13&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_44327",
+    "text": "The Janessa Pendant",
+    "position": {
+      "x": 660,
+      "y": 2679,
+      "width": 118,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-angkasa-pendant~59345.html?impEvent=browseclick&posEvent=14&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_59345",
+    "text": "The Angkasa Pendant",
+    "position": {
+      "x": 973,
+      "y": 2679,
+      "width": 124,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-serene-s-pendant~7119.html?impEvent=browseclick&posEvent=15&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_7119",
+    "text": "The Serene S Pendant",
+    "position": {
+      "x": 348,
+      "y": 3074,
+      "width": 122,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-life-in-bloom-pendant~4632.html?impEvent=browseclick&posEvent=16&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_4632",
+    "text": "The Life in Bloom Pendant",
+    "position": {
+      "x": 660,
+      "y": 3074,
+      "width": 147,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-liham-s-pendant~2141.html?impEvent=browseclick&posEvent=17&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_2141",
+    "text": "The Liham S Pendant",
+    "position": {
+      "x": 973,
+      "y": 3074,
+      "width": 119,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-kishaya-pendant~44320.html?impEvent=browseclick&posEvent=18&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_44320",
+    "text": "The Kishaya Pendant",
+    "position": {
+      "x": 348,
+      "y": 3468,
+      "width": 119,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-cutesy-a-pendant~79617.html?impEvent=browseclick&posEvent=19&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_79617",
+    "text": "The Cutesy A Pendant",
+    "position": {
+      "x": 660,
+      "y": 3468,
+      "width": 124,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-violet-pendant~37140.html?impEvent=browseclick&posEvent=20&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_37140",
+    "text": "The Violet Pendant",
+    "position": {
+      "x": 973,
+      "y": 3468,
+      "width": 106,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-rita-pendant~7871.html?impEvent=browseclick&posEvent=21&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_7871",
+    "text": "The Rita Pendant",
+    "position": {
+      "x": 348,
+      "y": 3862,
+      "width": 97,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-muralidhar-pendant~526.html?impEvent=browseclick&posEvent=22&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_526",
+    "text": "The Muralidhar Pendant",
+    "position": {
+      "x": 660,
+      "y": 3862,
+      "width": 135,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-melene-evil-eye-pendant~82769.html?impEvent=browseclick&posEvent=23&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_82769",
+    "text": "The Melene Evil Eye Pendant",
+    "position": {
+      "x": 973,
+      "y": 3862,
+      "width": 161,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.bluestone.com/pendants/the-mima-pendant~62366.html?impEvent=browseclick&posEvent=24&sortbyEvent=mostpopular&tagEvent=",
+    "selector": "#pid_62366",
+    "text": "The Mima Pendant",
+    "position": {
+      "x": 348,
+      "y": 4374,
+      "width": 106,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://play.google.com/store/apps/details?id=com.bluestone.android&referrer=website&utm_source%3Dwebsite_footer%26utm_medium%3Dwebsite%26utm_campaign%3Dwebsite",
+    "selector": "a.app-icon",
+    "text": "Download Android App",
+    "position": {
+      "x": 872,
+      "y": 5895,
+      "width": 376,
+      "height": 35
+    }
+  },
+  {
+    "href": "https://www.facebook.com/bluestonejewels",
+    "selector": "a[href*=\"bluestonejewels\"]",
+    "text": "Facebook",
+    "position": {
+      "x": 512,
+      "y": 6049,
+      "width": 15,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://www.youtube.com/user/Bluestonedotcom",
+    "selector": "a[href*=\"Bluestonedotcom\"]",
+    "text": "Youtube",
+    "position": {
+      "x": 562,
+      "y": 6049,
+      "width": 26,
+      "height": 15
+    }
+  },
+  {
+    "href": "https://in.pinterest.com/bluestonedotcom/",
+    "selector": "a[href*=\"\"]",
+    "text": "Pinterest",
+    "position": {
+      "x": 592,
+      "y": 6049,
+      "width": 26,
+      "height": 15
+    }
+  }
+]
